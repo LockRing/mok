@@ -400,33 +400,56 @@ ordered_pair check_eleven()
 
 ordered_pair check_twelve()
 {
-	ordered_pair ret;
-	ret.x = -1;
-	ret.y = -1;
+    ordered_pair ret;
+    ret.x = -1; 
+    ret.y = -1; 
 
-	int i = 0;
-	int j = 0;
-	for (; i<MAXXY; ++i)
-	{
-		for (; j<MAXXY; ++j)
-		{
-			if (my_status[i][j].is_check == true)
-			{
-				int k = 0;
-				int count = 0;
-				for (; k<8; ++k)
-				{
-					if (my_status[i][j].way[k] == 3)
-					{
-						ret.x = j;
-						ret.y = i;
-						return ret;
-					}
-				}
-			}
-		}
-	}
-	return ret;
+    int i = 0;
+    int j = 0;
+    for(;i<MAXXY;++i)
+    {   
+        for(;j<MAXXY;++j)
+        {
+            if(my_status[i][j].is_check == true)
+            {
+                int k = 0;
+                for(;k<8;++k)
+                {
+                    if(my_status[i][j].way[k] == 3)
+                    {
+                        if(map[i - way[k].y][j i- way[k].x] != enemy_color)
+                        {
+                            if(map[i - 2(way[k].y)][j - 2(way[k].x)] != enemy_color)
+                            {
+                                if(map[i -3(way[k].y)][j - 3(way[k].x)] != enemy_color)
+                                {
+                                    ret.x = j;
+                                    ret.y = i;
+                                    return ret;
+                                }
+                                else
+                                {
+                                    ret.x = j;
+                                    ret.y = i;
+                                }
+                            }
+                            else
+                            {
+                                ret.x = j;
+                                ret.y = i;
+                            }
+                        }
+                        else
+                        {
+                            ret.x = j;
+                            ret.y = i;
+                        }
+                    }
+                }
+            }
+        }
+    }   
+    return ret;
 }
 
 void get_my_status(void) {
