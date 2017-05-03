@@ -522,10 +522,11 @@ void f201701001(int *NewX, int *NewY, int mc, int CurTurn)
 	if (!is_init) {
 		init();
 		is_init = true;
+		my_color = mc;
+		enemy_color = (mc == WHITE) ? BLACK : WHITE;
 	}
 	get_map();
 	eval_weight();
-	my_color = mc;
-	enemy_color = (mc == WHITE) ? BLACK : WHITE;
+	
 
 }
