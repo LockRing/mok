@@ -483,7 +483,7 @@ void get_map() {
 	int i, j;
 	for (i = 0; i < MAXXY; i++) {
 		for (j = 0; j < MAXXY; j++) {
-			if (B(i, j) != map[i][j]) {
+			if (B(j, i) != map[i][j]) {
 				map[i][j] = B(i, j);
 				enemy = { j,i };
 				my_status[enemy.y][enemy.x].is_check = false;
