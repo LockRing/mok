@@ -181,7 +181,7 @@ ordered_pair check_two() {
 
 ordered_pair check_three()
 {
-ordered_pair = ret;
+ordered_pair ret;
 ret.x = -1;
 ret.y = -1;
 
