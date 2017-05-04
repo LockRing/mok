@@ -179,6 +179,81 @@ ordered_pair check_two() {
 	return ret;
 }
 
+ordered_pair check_three()
+{
+ordered_pair = ret;
+ret.x = -1;
+ret.y = -1;
+
+int i = 0;
+int j = 0;
+for(;i<MAXXY;++i)
+{
+	for(;j<MAXXY;++j)
+	{
+		if(my_status[i][j].is_check == true)
+		{
+			int k = 0;
+			int count4 = 0;
+			int count3 = 0;
+			int open_count4 = 0;
+			int open_count3 = 0;
+			for(;k<8;++k)
+			{
+				if(my_status[i][j].way[k] == 4)
+				{
+					++count4;
+					if(open_check(i,j,k,4,true))
+					{
+						++open_count4;
+					}
+					if(map[i - way[k].y][j - way[k].x] != enemy_color)
+					{
+						++open_count4;
+					}
+
+				}
+				else if(my_status[i][j].way[k] == 3)
+				{
+					++count3;
+					if(my_status[i][j].way[(k + 4) % 8] > 1)
+					{
+						if(open_check(i,j,k,3,true))
+						{
+							++open_count3;
+						}
+						if(map[i - 2*(way[k].y)][j - 2*(way[k].x)] == EMPTY)
+						{
+							++open_count3;
+						}
+					}
+				}
+
+				if(count4 > 1 && open_count4 > 1)
+				{
+					ret.x = j;
+					ret.y = i;
+					return ret;
+				}
+				else if(count4 > 0 && count3 > 0 && open_count4 + open_count3 > 1)
+				{
+					ret.x = j;
+					ret.y = i;
+					return ret;				
+				}
+				else if(count3 > 1 && open_count3 > 1)
+				{
+					ret.x = i;
+					ret.y = i;
+					return ret;
+				}
+			}
+		}
+	}
+}
+return ret;
+}
+
 ordered_pair three_to_five_check() {
 	int i, j, k;
 	int l;
