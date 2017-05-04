@@ -254,6 +254,44 @@ for(;i<MAXXY;++i)
 return ret;
 }
 
+ordered_pair check_four2five()
+{
+	ordered_pair ret;
+	ret.x = -1;
+	ret.y = -1;
+
+	int i = 0;
+	int j = 0;
+	for(;i<MAXXY;++i)
+	{
+		for(;j<MAXXY;++j)
+		{
+			if(my_status[i][j].is_check == true)
+			{
+				int k = 0;
+				for(;k<8;++k)
+				{
+					if(my_status[i][j].way[k] == 4)
+					{
+						ret.x = j;
+						ret.y = i;
+						if(map[i - way[k].y][j - way[k].x] == EMPTY && check_open(i,j,k,4,true))
+						{
+							rerturn ret;
+						}
+						else if(map[i - way[k].y][j - way[k].x] == enemy_color && !check_open(i,j,k,4,true))
+						{
+							ret.x = -1;
+							ret.y = -1;
+						}
+					}
+				}
+			}
+		}
+	}
+	return ret;
+}
+
 ordered_pair three_to_five_check() {
 	int i, j, k;
 	int l;
