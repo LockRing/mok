@@ -119,12 +119,12 @@ bool open_check(int i, int j, int k, int num, bool is_m) {
 		ver += way[k].x;
 	}
 	if (is_m) {
-		if (map[i + ver][j + ho].way[k] != my_color) {
+		if (map[i + ver][j + ho].way[k] == enemy_color) {
 			return false;
 		}
 	}
 	else {
-		if (map[i + ver][j + ho] != enemy_color) {
+		if (map[i + ver][j + ho] == my_color) {
 			return false;
 		}
 	}
