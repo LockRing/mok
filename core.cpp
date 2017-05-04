@@ -119,16 +119,16 @@ bool open_check(int i, int j, int k, int num, bool is_m) {
 		ver += way[k].x;
 	}
 	if (is_m) {
-		if (my_status[i + ver][j + ho].way[k] == num) {
-			return true;
+		if (map[i + ver][j + ho].way[k] != my_color) {
+			return false;
 		}
 	}
 	else {
-		if (enemy_status[i + ver][j + ho].way[k] == num) {
-			return true;
+		if (map[i + ver][j + ho] != enemy_color) {
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 
 ordered_pair check_one() {
