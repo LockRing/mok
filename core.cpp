@@ -275,11 +275,11 @@ ordered_pair check_four2five()
 					{
 						ret.x = j;
 						ret.y = i;
-						if(map[i - way[k].y][j - way[k].x] == EMPTY && check_open(i,j,k,4,true))
+						if(map[i - way[k].y][j - way[k].x] == EMPTY && open_check(i,j,k,4,true))
 						{
 							rerturn ret;
 						}
-						else if(map[i - way[k].y][j - way[k].x] == enemy_color && !check_open(i,j,k,4,true))
+						else if(map[i - way[k].y][j - way[k].x] == enemy_color && !open_check(i,j,k,4,true))
 						{
 							ret.x = -1;
 							ret.y = -1;
