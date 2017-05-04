@@ -487,21 +487,15 @@ ordered_pair check_eleven()
 			if (my_status[i][j].is_check == true)
 			{
 				int k = 0;
-				int count = 0;
 				for (; k<8; ++k)
 				{
-					if (my_status[i][j].way[k] == 3 && open_check(i, j, k, 3, false))
+					if (my_status[i][j].way[k] == 3 && open_check(i, j, k, 3, true))
 					{
 						if (map[i - way[k].y][j - way[k].x] != enemy_color)
 						{
 							ret.x = j;
 							ret.y = i;
 							return ret;
-						}
-						else
-						{
-							ret.x = j;
-							ret.y = i;
 						}
 					}
 				}
