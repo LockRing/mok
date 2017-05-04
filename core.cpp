@@ -413,6 +413,7 @@ ordered_pair check_twelve()
             if(my_status[i][j].is_check == true)
             {
                 int k = 0;
+		int level = 0;
                 for(;k<8;++k)
                 {
                     if(my_status[i][j].way[k] == 3)
@@ -427,20 +428,23 @@ ordered_pair check_twelve()
                                     ret.y = i;
                                     return ret;
                                 }
-                                else
+                                else if(level < 3)
                                 {
+				    level = 3;
                                     ret.x = j;
                                     ret.y = i;
                                 }
                             }
-                            else
+                            else if(level < 2)
                             {
+				level = 2;
                                 ret.x = j;
                                 ret.y = i;
                             }
                         }
-                        else
+                        else if(level < 1)
                         {
+			    level = 1;
                             ret.x = j;
                             ret.y = i;
                         }
