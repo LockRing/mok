@@ -348,7 +348,7 @@ ordered_pair check_six() {//적4.4막기
 		for (j = 0; j < MAXXY; j++) {
 			int check = 0;
 			for (k = 0; k < 8; k++) {
-				if (enemy_status[i][j].way[k] == 4) {
+				if (enemy_status[i][j].way[k] == 4 || enemy_status[i][j].way[k] + enemy_status[i][j].way[(k + 4) % 8] > 4) {
 					check++;
 				}
 			}
