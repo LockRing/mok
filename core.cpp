@@ -339,7 +339,7 @@ ordered_pair three_to_five_check() {
 	return a;
 }
 */
-ordered_pair check_six() {
+ordered_pair check_six() {//적4.4막기
 	int i, j, k;
 	int l;
 	int check_max = 0;
@@ -348,25 +348,20 @@ ordered_pair check_six() {
 		for (j = 0; j < MAXXY; j++) {
 			int check = 0;
 			for (k = 0; k < 8; k++) {
-				if (enemy_status[i][j].way[k] == 4 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 4) {
-					if (open_check(i, j, k, 4, true)) {
-						check++;
-					}
+				if (enemy_status[i][j].way[k] == 4) {
 					check++;
 				}
 			}
 			if (check > check_max) {
 				check_max = check;
 				a = { j,i };
+				if (check_max >= 2) {
+					return a;
+				}
 			}
 		}
 	}
-	if (check_max < 2) {
-		return{ -1,-1 };
-	}
-	else {
-		return a;
-	}
+	a = { -1,-1 };
 	return a;
 }
 
