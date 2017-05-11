@@ -674,7 +674,7 @@ void update_status(int x, int y, bool me)
 				++c;
 			}
 			int d = 1;
-			while (map[y - ver * d][x - ho * d] == enemy_color &&  (y +ver * d) >= 0 && (y + ver * d) < MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
+			while (map[y - ver * d][x - ho * d] == enemy_color &&  (y - ver * d) >= 0 && (y - ver * d) < MAXXY &&  (x - ho * d) >= 0 && (x - ho * d) < MAXXY)
 			{
 				++d;
 			}
@@ -684,7 +684,7 @@ void update_status(int x, int y, bool me)
 				enemy_status[y + ver * c][x + ho * c].is_check = true;
 				enemy_status[y + ver * c][x + ho * c].way[(4 + i) % 8] = c + d;
 			}
-			if (map[y - ver * d][x - ho * d] == EMPTY &&  (y +ver * d) >= 0 && (y + ver * d) < MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
+			if (map[y - ver * d][x - ho * d] == EMPTY &&  (y - ver * d) >= 0 && (y - ver * d) < MAXXY &&  (x - ho * d) >= 0 && (x - ho * d) < MAXXY)
 			{
 				enemy_status[y - ver * d][x - ho * d].is_check = true;
 				enemy_status[y - ver * d][x - ho * d].way[i] = c + d;
