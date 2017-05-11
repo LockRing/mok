@@ -166,7 +166,7 @@ ordered_pair check_two() {
 			if (enemy_status[i][j].is_check == true) {
 				int k = 0;
 				for (; k<8; ++k) {
-					if (enemy_status[i][j].way[k] == 5 || enemy_status[i][j].way[k] + enemy_status[i][j].way[(k + 4) % 8] > 5) {
+					if (enemy_status[i][j].way[k] >= 5 || enemy_status[i][j].way[k] + enemy_status[i][j].way[(k + 4) % 8] > 5) {
 						ret.x = j;
 						ret.y = i;
 						return ret;
