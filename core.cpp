@@ -643,12 +643,12 @@ void update_status(int x, int y, bool me)
 			int ver = way[i].y;
 			int ho = way[i].x;
 			int c = 1;
-			while (map[y + ver * c][x + ho * c] == my_color &&  (y +ver * c) >= 0 && (y + ver * c) <= MAXXY &&  (x +ho * c) >= 0 && (x + ho * c) < MAXXY)
+			while (map[y + ver * c][x + ho * c] == my_color &&  (y +ver * c) >= 0 && (y + ver * c) < MAXXY &&  (x +ho * c) >= 0 && (x + ho * c) < MAXXY)
 			{
 				++c;
 			}
 			int d = 1;
-			while (map[y - ver * d][x - ho * d] == my_color &&  (y +ver * d >= 0 && (y + ver * d) <= MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
+			while (map[y - ver * d][x - ho * d] == my_color &&  (y +ver * d >= 0 && (y + ver * d) < MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
 			{
 				++d;
 			}
@@ -669,12 +669,12 @@ void update_status(int x, int y, bool me)
 			int ver = way[i].y;
 			int ho = way[i].x;
 			int c = 1;
-			while (map[y + ver * c][x + ho * c] == enemy_color &&  (y +ver * c) >= 0 && (y + ver * c) <= MAXXY &&  (x +ho * c) >= 0 && (x + ho * c) <= MAXXY)
+			while (map[y + ver * c][x + ho * c] == enemy_color &&  (y +ver * c) >= 0 && (y + ver * c) < MAXXY &&  (x +ho * c) >= 0 && (x + ho * c) < MAXXY)
 			{
 				++c;
 			}
 			int d = 1;
-			while (map[y - ver * d][x - ho * d] == enemy_color &&  (y +ver * d) >= 0 && (y + ver * d) <= MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) <= MAXXY)
+			while (map[y - ver * d][x - ho * d] == enemy_color &&  (y +ver * d) >= 0 && (y + ver * d) < MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
 			{
 				++d;
 			}
