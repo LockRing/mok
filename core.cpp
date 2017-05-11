@@ -154,90 +154,134 @@ ordered_pair check_two() {
 }
 
 ordered_pair check_three()
-{
-ordered_pair ret;
-ret.x = -1;
-ret.y = -1;
-
-int i = 0;
-int j = 0;
-for(;i<MAXXY;++i)
-{
-	j = 0;
-	for(;j<MAXXY;++j)
-	{
-		if(my_status[i][j].is_check == true)
-		{
-			int k = 0;
-			int count4 = 0;
-			int count3 = 0;
-			int open_count4 = 0;
-			int open_count3 = 0;
-			
-			for(;k<8;++k)
+{	
+	int i,j;
+	int check_max = 0;
+	for (i = 0; i < MAXXY; i++) {
+		for (j = 0; j < MAXXY; j++) {
+			if (my_status[i][j].is_check == true)
 			{
-				if(my_status[i][j].way[k] == 4)
 				{
-					++count4;
-					if(open_check(i,j,k,4,true))
+					int k = 0;
+					int count = 0;
+					int open = 0;
+					for (; k < 8; ++k)
 					{
-						++open_count4;
-					}
-					if(map[i - way[k].y][j - way[k].x] != enemy_color)
-					{
-						++open_count4;
-					}
-
-				}
-				else if(my_status[i][j].way[k] == 3)
-				{
-					++count3;
-					if(my_status[i][j].way[(k + 4) % 8] == 2)
-					{
-						if(open_check(i,j,k,3,true))
+						if (my_status[i][j].way[k] == 4)
 						{
-							++open_count3;
+							++count;
+							if (open_check(i, j, k, 4, true))
+							{
+								++open;
+							}
 
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+							{
+								++open;
+							}
 						}
-						if(map[i - 2*(way[k].y)][j - 2*(way[k].x)] == EMPTY)
+
+						if (count > 1 && open > 1)
 						{
-							++open_count3;
+							return{ j,i };
 						}
 					}
 				}
 
-				if(count4 > 1 && open_count4 > 1)
 				{
-					ret.x = j;
-					ret.y = i;
-					return ret;
-				}
-				else if(count4 > 0 && count3 > 0 && open_count4 + open_count3 > 1)
-				{
-					ret.x = j;
-					ret.y = i;
-					return ret;				
-				}
-				else if(count3 > 1 && open_count3 > 1)
-				{
-					ret.x = j;
-					ret.y = i;
+					int k = 0;
+					int count = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 4 || (my_status[i][j].way[k] == 3 && my_status[i][j].way[(k + 4) % 8] == 2))
+						{
+							++count;
 
-					return ret;
+							if (my_status[i][j].way[k] == 4 && open_check(i, j, k, 4, true))
+							{
+								++open;
+							}
+							if (my_status[i][j].way[k] == 4 && (i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+							{
+								++open;
+							}
+							if (my_status[i][j].way[k] == 3 && open_check(i, j, k, 3, true))
+							{
+								++open;
+								if (open_check(i, j, (4 + k) % 8, 2, true))
+								{
+									++open;
+								}
+							}
+
+							if (count > 1 && open > 1)
+							{
+								return{ j,i };
+							}
+						}
+					}
+				}
+				/*
+				{
+				int k = 0;
+				int count = 0;
+				int open = 0;
+				for (; k < 4; ++k)
+				{
+				if (my_status[i][j].way[k] == 3 && my_status[i][j].way[(k + 4) % 8] == 2)
+				{
+				++count;
+				if (open_check(i, j, k, 3, true))
+				{
+				++open;
+				}
+				if (open_check(i, j, (k + 4) % 8, 2, true))
+				{
+				++open;
+				}
+
+				if (count > 1 && open > 1)
+				{
+				return {j,i};
+				}
+				}
+				}
+				}
+				*/
+			}
+		}
+	}
+	return { -1,-1 };
+}
+
+ordered_pair check_four()
+{
+	int i = 0;
+	int j = 0;
+	for (; i < MAXXY; ++i)
+	{
+		j = 0;
+		for (; j < MAXXY; ++j)
+		{
+			if (my_status[i][j].is_check == true)
+			{
+				int k = 0;
+				for (; k < 8; ++k)
+				{
+					if (my_status[i][j].way[k] == 4 && open_check(i, j, k, 4, true) && (i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+					{
+						return {j,i};
+					}
 				}
 			}
 		}
 	}
-}
-return ret;
+	return {-1,-1};
 }
 
-ordered_pair check_four2five()
+ordered_pair check_five()
 {
-	ordered_pair ret;
-	ret.x = -1;
-	ret.y = -1;
-
 	int i = 0;
 	int j = 0;
 	for(;i<MAXXY;++i)
@@ -250,46 +294,19 @@ ordered_pair check_four2five()
 				int k = 0;
 				for(;k<8;++k)
 				{
-					if(my_status[i][j].way[k] == 4)
+					if (my_status[i][j].way[k] == 4 && (i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
 					{
-						ret.x = j;
-						ret.y = i;
-						if(map[i - way[k].y][j - way[k].x] == EMPTY && open_check(i,j,k,4,true))
-						{
-							return ret;
-						}
-						else if(map[i - way[k].y][j - way[k].x] == enemy_color && !open_check(i,j,k,4,true))
-						{
-							ret.x = -1;
-							ret.y = -1;
-						}
-					}
-					else if (my_status[i][j].way[k] == 3 && my_status[i][j].way[(4 + k) % 8] == 2)
-					{
-						ret.x = j;
-						ret.y = i;
-						if (open_check(i, j, k, 3, true) && open_check(i, j, (4 + k) % 8,2, true))
-						{
-							return ret;
-						}
-						else if (!open_check(i, j, k, 3, true) && !open_check(i, j, (4 + k) % 8,2, true))
-						{
-							ret.x = -1;
-							ret.y = -1;
-						}
+						return {j,i};
 					}
 				}
 			}
 		}
 	}
-	return ret;
+	return {-1,-1};
 }
 
 ordered_pair check_six() {//적4.4막기
-	int i, j, k;
-	int l;
-	int check_max = 0;
-	ordered_pair a;
+	int i, j;
 	for (i = 0; i < MAXXY; i++) {
 		for (j = 0; j < MAXXY; j++) {
 			if (enemy_status[i][j].is_check == true)
@@ -385,8 +402,7 @@ ordered_pair check_six() {//적4.4막기
 			}
 		}
 	}
-	a = { -1,-1 };
-	return a;
+	return { -1,-1 };
 }
 
 ordered_pair check_seven() {//4.3
@@ -692,27 +708,32 @@ void update_status(int x, int y, bool me)
 
 ordered_pair eval_weight() {
 	ordered_pair ret = check_one();
-	if (ret.x > 0)
+	if (ret.x > -1)
 	{
 		return ret;
 	}
 	ret = check_two();
-	if(ret.x > 0)
+	if(ret.x > -1)
 	{
 		return ret;
 	}
 	ret = check_three();
-	if (ret.x > 0)
+	if (ret.x > -1)
 	{
 		return ret;
 	}
-	ret = check_four2five();
-	if (ret.x > 0)
+	ret = check_four();
+	if (ret.x > -1)
+	{
+		return ret;
+	}
+	ret = check_five();
+	if (ret.x > -1)
 	{
 		return ret;
 	}
 	ret = check_six();
-	if (ret.x > 0)
+	if (ret.x > -1)
 	{
 		return ret;
 	}
@@ -742,14 +763,14 @@ void f201701001(int *NewX, int *NewY, int mc, int CurTurn)
 	update_status(enemy.x,enemy.y,false);
 	
 	ordered_pair ret = eval_weight();
-	/*	
+	
 	if (CurTurn == 1)
-		ret = { 3,3 };
+		ret = { 1,3 };
 	else if (CurTurn == 3)
-		ret = { 6,1 };
+		ret = { 2,3 };
 	else if (CurTurn == 5)
-		ret = { 8,3 };
-
+		ret = { 3,3 };
+	/*
 	else if (CurTurn == 7)
 		ret = { 1,14 };
 	else if (CurTurn == 9)
@@ -757,6 +778,7 @@ void f201701001(int *NewX, int *NewY, int mc, int CurTurn)
 	else if (CurTurn == 11)
 		ret = { 5,1 };
 	*/
+
 	*NewX = ret.x;
 	*NewY = ret.y;
 	map[ret.y][ret.x] = my_color;
