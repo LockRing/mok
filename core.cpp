@@ -141,7 +141,7 @@ ordered_pair check_one() {
 
 				int k = 0;
 				for (; k < 8; ++k) {
-					if (my_status[i][j].way[k] == 5 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 5) {
+					if (my_status[i][j].way[k] >= 5 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 5) {
 						ret.x = j;
 						ret.y = i;
 						return ret;
@@ -648,7 +648,7 @@ void update_status(int x, int y, bool me)
 				++c;
 			}
 			int d = 1;
-			while (map[y - ver * d][x - ho * d] == my_color &&  (y +ver * d >= 0 && (y + ver * d) < MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
+			while (map[y - ver * d][x - ho * d] == my_color &&  (y +ver * d) >= 0 && (y + ver * d) < MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
 			{
 				++d;
 			}
@@ -679,12 +679,12 @@ void update_status(int x, int y, bool me)
 				++d;
 			}
 
-			if (map[y + ver * c][x + ho * c] == EMPTY)
+			if (map[y + ver * c][x + ho * c] == EMPTY &&  (y +ver * c) >= 0 && (y + ver * c) < MAXXY &&  (x +ho * c) >= 0 && (x + ho * c) < MAXXY)
 			{
 				enemy_status[y + ver * c][x + ho * c].is_check = true;
 				enemy_status[y + ver * c][x + ho * c].way[(4 + i) % 8] = c + d;
 			}
-			if (map[y - ver * d][x - ho * d] == EMPTY)
+			if (map[y - ver * d][x - ho * d] == EMPTY &&  (y +ver * d) >= 0 && (y + ver * d) < MAXXY &&  (x +ho * d) >= 0 && (x + ho * d) < MAXXY)
 			{
 				enemy_status[y - ver * d][x - ho * d].is_check = true;
 				enemy_status[y - ver * d][x - ho * d].way[i] = c + d;
