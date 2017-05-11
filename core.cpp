@@ -18,7 +18,7 @@ typedef struct status {
 
 int map[MAXXY][MAXXY];
 int weight[MAXXY][MAXXY] = { 0, };
-//ordered_pair way[8] = { { 0,1 },{ 1,1 },{ 1,0 },{ 1,-1 },{ 0,-1 },{ -1,-1 },{ -1,0 },{ -1,1 } };
+
 ordered_pair way[8] = { {0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1} };
 ordered_pair enemy;
 ordered_pair my;
@@ -81,37 +81,7 @@ void init() {
 		}
 	}
 }
-/*
-get_status
-enemy를 기준으로 8방위만 평가하면 된다.
-*/
-/*
-void get_enemy_status(void) {
-	int c;
-	ordered_pair way[8] = { {0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1} };
-	for (c = 0; c < 8; c++) {
-		int ho = way[c].y;
-		int ver = way[c].x;
-		if (map[enemy.y + ver][enemy.x + ho] == EMPTY) {
-			enemy_status[enemy.y + ver][enemy.x + ho].way[c] += 1;
-			enemy_status[enemy.y + ver][enemy.x + ho].is_check = true;
-		}
-		else {
-			while (map[enemy.y + ver][enemy.x + ho] == enemy_color) {
-				ver += way[c].y;
-				ho += way[c].x;
-			}
 
-			if (map[enemy.y + ver][enemy.x + ho] == EMPTY) {
-				enemy_status[enemy.y + ver][enemy.x + ho].way[c] += 1;
-				enemy_status[enemy.y + ver][enemy.x + ho].is_check = true;
-			}
-		}
-
-
-	}
-}
-*/
 bool open_check(int i, int j, int k, int num, bool is_m) {
 	if ((i + way[k].y * num) < 0 || (i + way[k].y * num) >= MAXXY || (j + way[k].x * num) < 0 || (j + way[k].x * num) >= MAXXY)
 	{
@@ -314,36 +284,7 @@ ordered_pair check_four2five()
 	}
 	return ret;
 }
-/*
-ordered_pair three_to_five_check() {
-	int i, j, k;
-	int l;
-	int check_max = 0;
-	ordered_pair a;
-	for (i = 0; i < MAXXY; i++) {
-		for (j = 0; j < MAXXY; j++) {
-			int check = 0;
-			for (k = 0; k < 8; k++) {
-				if (my_status[i][j].way[k] == 4 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 4) {
-					if (open_check(i, j, k, 4, true)) {
-						check++;
-					}
-					check++;
-				}
-			}
-			if (check > check_max) {
-				check_max = check;
-				a = { j,i };
-			}
 
-		}
-	}
-	if (!check_max) {
-		return{ -1,-1 };
-	}
-	return a;
-}
-*/
 ordered_pair check_six() {//적4.4막기
 	int i, j, k;
 	int l;
@@ -658,33 +599,6 @@ ordered_pair check_twelve()
     }   
     return ret;
 }
-/*
-void get_my_status(void) {
-	int c;
-
-	for (c = 0; c < 8; c++) {
-		int ho = way[c].y;
-		int ver = way[c].x;
-		if (map[my.y + ver][my.x + ho] == EMPTY) {
-			enemy_status[my.y + ver][my.x + ho].way[c] += 1;
-			enemy_status[my.y + ver][my.x + ho].is_check = true;
-		}
-		else {
-			while (map[my.y + ver][my.x + ho] == enemy_color) {
-				ver += way[c].y;
-				ho += way[c].x;
-			}
-
-			if (map[my.y + ver][my.x + ho] == EMPTY) {
-				enemy_status[my.y + ver][my.x + ho].way[c] += 1;
-				enemy_status[my.y + ver][my.x + ho].is_check = true;
-			}
-		}
-
-
-	}
-}
-*/
 
 void get_map() {
 	int i, j;
