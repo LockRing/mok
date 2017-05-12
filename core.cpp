@@ -625,11 +625,17 @@ ordered_pair check_nine()
 
 				{
 					int k = 0;
+					int count = 0;
 					for (; k < 4; ++k)
 					{
 						if (my_status[i][j].way[k] == 2 && my_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, true) && open_check(i, j, (4 + k) % 8, 2, true))
 						{
-							return {j,i};
+							++count;
+						}
+
+						if (count > 1)
+						{
+							return { j,i };
 						}
 					}
 				}
@@ -680,6 +686,46 @@ ordered_pair check_nine()
 
 				}
 			}
+
+			if (map[i][j] == EMPTY)
+			{
+				int count = 0;
+				if (my_status[i][j].is_check == true)
+				{
+					int k = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 3 && open_check(i, j, k, 3, true) && open_check(i, j, (4 + k) % 8, 1, true))
+						{
+							++count;
+						}
+						else if (my_status[i][j].way[k] == 1 && my_status[i + way[k].y][j + way[k].x].is_check == true && my_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, true) && open_check(i, j, (4 + k) % 8, 1,true))
+						{
+							++count;
+						}
+					}
+
+				}
+				else
+				{
+					int k = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i + way[k].y][j + way[k].x].is_check == true)
+						{
+							if (my_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, true) && open_check(i, j, (4 + k) % 8, 1, true))
+							{
+								++count;
+							}
+						}
+					}
+				}
+
+				if (count > 1)
+				{
+					return{ j,i };
+				}
+			}
 		}
 	}
 	return ret;
@@ -727,11 +773,16 @@ ordered_pair check_ten()
 
 				{
 					int k = 0;
+					int count = 0;
 					for (; k < 4; ++k)
 					{
 						if (enemy_status[i][j].way[k] == 2 && enemy_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, false) && open_check(i, j, (4 + k) % 8, 2, false))
 						{
-							return{ j,i };
+							++count;
+						}
+						if (count > 1)
+						{
+							return {j,i};
 						}
 					}
 				}
@@ -782,37 +833,44 @@ ordered_pair check_ten()
 
 				}
 			}
-		}
-	}
-	return ret;
-}
 
-ordered_pair check_eleven()
-{
-	ordered_pair ret;
-	ret.x = -1;
-	ret.y = -1;
-
-	int i = 0;
-	int j = 0;
-	for (; i<MAXXY; ++i)
-	{
-		for (; j<MAXXY; ++j)
-		{
-			if (my_status[i][j].is_check == true)
+			if (map[i][j] == EMPTY)
 			{
-				int k = 0;
-				for (; k<8; ++k)
+				int count = 0;
+				if (enemy_status[i][j].is_check == true)
 				{
-					if (my_status[i][j].way[k] == 3 && open_check(i, j, k, 3, true))
+					int k = 0;
+					for (; k < 8; ++k)
 					{
-						if (map[i - way[k].y][j - way[k].x] != enemy_color)
+						if (enemy_status[i][j].way[k] == 3 && open_check(i, j, k, 3, false) && open_check(i,j,(4 + k) % 8,1,false))
 						{
-							ret.x = j;
-							ret.y = i;
-							return ret;
+							++count;
+						}
+						else if (enemy_status[i][j].way[k] == 1 && enemy_status[i + way[k].y][j + way[k].x].is_check == true && enemy_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y,j + way[k].x, k ,3,false) && open_check(i,j,(4 + k) % 8,1,false))
+						{
+							++count;
 						}
 					}
+
+				}
+				else
+				{
+					int k = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i + way[k].y][j + way[k].x].is_check == true)
+						{
+							if (enemy_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, false) && open_check(i,j,(4 + k) % 8,1,false))
+							{
+								++count;
+							}
+						}
+					}
+				}
+
+				if (count > 1)
+				{
+					return {j,i};
 				}
 			}
 		}
@@ -820,13 +878,34 @@ ordered_pair check_eleven()
 	return ret;
 }
 
+ordered_pair check_eleven()
+{
+	int i = 0;
+	int j = 0;
+	for (; i<MAXXY; ++i)
+	{
+		j = 0;
+		for (; j<MAXXY; ++j)
+		{
+			if (my_status[i][j].is_check == true)
+			{
+				int k = 0;
+				for (; k<8; ++k)
+				{
+					if (my_status[i][j].way[k] == 3 && open_check(i, j, k, 3, true) && open_check(i,j,(4 + k) % 8,1,true))
+					{
+						return { j,i };
+					}
+				}
+			}
+		}
+	}
+	return {-1,-1};
+}
+
 ordered_pair check_twelve()
 {
-    ordered_pair ret;
-    ret.x = -1; 
-    ret.y = -1; 
-
-    int i = 0;
+	int i = 0;
     int j = 0;
     for(;i<MAXXY;++i)
     {   
@@ -834,48 +913,11 @@ ordered_pair check_twelve()
         {
             if(my_status[i][j].is_check == true)
             {
-                int k = 0;
-		int level = 0;
-                for(;k<8;++k)
-                {
-                    if(my_status[i][j].way[k] == 3)
-                    {
-                        if(map[i - way[k].y][j - way[k].x] != enemy_color)
-                        {
-                            if(map[i - 2*(way[k].y)][j - 2*(way[k].x)] != enemy_color)
-                            {
-                                if(map[i -3*(way[k].y)][j - 3*(way[k].x)] != enemy_color)
-                                {
-                                    ret.x = j;
-                                    ret.y = i;
-                                    return ret;
-                                }
-                                else if(level < 3)
-                                {
-				    level = 3;
-                                    ret.x = j;
-                                    ret.y = i;
-                                }
-                            }
-                            else if(level < 2)
-                            {
-				level = 2;
-                                ret.x = j;
-                                ret.y = i;
-                            }
-                        }
-                        else if(level < 1)
-                        {
-			    level = 1;
-                            ret.x = j;
-                            ret.y = i;
-                        }
-                    }
-                }
+                
             }
         }
     }   
-    return ret;
+	return {-1,-1};
 }
 
 void get_map() {
@@ -1019,6 +1061,11 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}
+	ret = check_eleven();
+	if (ret.x > -1)
+	{
+		return ret;
+	}
 
 	int i = 0;
 	int j = 0;
@@ -1058,7 +1105,7 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}
-
+	
 	ret.x = rand() % MAXXY;
 	ret.y = rand() % MAXXY;
 	while (map[ret.y][ret.x] != EMPTY)
