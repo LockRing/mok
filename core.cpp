@@ -271,6 +271,7 @@ ordered_pair check_four()
 				{
 					if (my_status[i][j].way[k] == 4 && open_check(i, j, k, 4, true) && (i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
 					{
+						AfxMessageBox(_T("qq"));
 						return {j,i};
 					}
 				}
@@ -406,24 +407,139 @@ ordered_pair check_six() {//적4.4막기
 }
 
 ordered_pair check_seven() {//4.3
-	int i, j, k;
-	ordered_pair a;
+	int i, j;
 	for (i = 0; i < MAXXY; i++) {
 		for (j = 0; j < MAXXY; j++) {
-			for (k = 0; k < 8; k++) {
-				if (my_status[i][j].way[k] == 3 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 3) {
-					while (k < 8) {
-						k++;
-						if (my_status[i][j].way[k] == 4 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 4) {
-							return{ i,j };
+			if (my_status[i][j].is_check == true)
+			{
+				{
+					int k = 0;
+					int count3 = 0;
+					int count4 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 4)
+						{
+							++count4;
+							if (open_check(i, j, k, 4, true))
+							{
+								++open;
+								if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+								{
+									return {j,i};
+								}
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+							{
+								++open;
+							}
+						}
+						if (my_status[i][j].way[k] == 3)
+						{
+							++count3;
+							if (open_check(i, j, k, 2, true))
+							{
+								++open;
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+							{
+								++open;
+							}
+						}
+
+						if (count4 > 0 && count3 > 0 && open > 2)
+						{
+							return {j,i};
 						}
 					}
 				}
-				if (my_status[i][j].way[k] == 4 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 4) {
-					while (k < 8) {
-						k++;
-						if (my_status[i][j].way[k] == 3 || my_status[i][j].way[k] + my_status[i][j].way[(k + 4) % 8] > 3) {
-							return{ i,j };
+
+				{
+					int k = 0;
+					int count3 = 0;
+					int count32 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 3 && my_status[i][j].way[(4 + k) % 8] == 2)
+						{
+							++count32;
+							if (open_check(i, j, k, 3, true))
+							{
+								++open;
+								if (open_check(i,j,(4 + k) % 8,2,true))
+								{
+									return { j,i };
+								}
+							}
+							if (open_check(i, j, (4 + k) % 8, 2, true))
+							{
+								++open;
+							}
+						}
+						else if (my_status[i][j].way[k] == 3)
+						{
+							++count3;
+							if (open_check(i, j, k, 3, true))
+							{
+								++open;
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+							{
+								++open;
+							}
+						}
+
+						if (count32 > 0 && count3 > 0 && open > 2)
+						{
+							return {j,i};
+						}
+					}
+				}
+
+				{
+					int k = 0;
+					int count4 = 0;
+					int count11 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 4)
+						{
+							++count4;
+							if (open_check(i, j, k, 4, true))
+							{
+								++open;
+								if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+								{
+									return{ j,i };
+								}
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+							{
+								++open;
+							}
+						}
+
+						if (k < 4)
+						{
+							if (my_status[i][j].way[k] == 2 && my_status[i][j].way[(4 + k) % 8] == 2)
+							{
+								++count11;
+								if (open_check(i, j, k, 2, true))
+								{
+									++open;
+								}
+								if (open_check(i, j, (4 + k) % 8, 2, true))
+								{
+									++open;
+								}
+							}
+						}
+						if (count4 > 0 && count11 > 0 && open > 2)
+						{
+							return {j,i};
 						}
 					}
 				}
@@ -737,7 +853,11 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}
-
+	ret = check_seven();
+	if (ret.x > -1)
+	{
+		return ret;
+	}
 	ret.x = rand() % MAXXY;
 	ret.y = rand() % MAXXY;
 	while (map[ret.y][ret.x] != EMPTY)
@@ -763,16 +883,16 @@ void f201701001(int *NewX, int *NewY, int mc, int CurTurn)
 	update_status(enemy.x,enemy.y,false);
 	
 	ordered_pair ret = eval_weight();
-	
+
+/*
 	if (CurTurn == 1)
-		ret = { 1,3 };
-	else if (CurTurn == 3)
 		ret = { 2,3 };
-	else if (CurTurn == 5)
+	else if (CurTurn == 3)
 		ret = { 3,3 };
-	/*
+	else if (CurTurn == 5)
+		ret = { 4,3 };
 	else if (CurTurn == 7)
-		ret = { 1,14 };
+		ret = { 5,2 };
 	else if (CurTurn == 9)
 		ret = { 5,4 };
 	else if (CurTurn == 11)
@@ -785,7 +905,4 @@ void f201701001(int *NewX, int *NewY, int mc, int CurTurn)
 	my_status[ret.y][ret.x].is_check = false;
 	enemy_status[ret.y][ret.x].is_check = false;
 	update_status(ret.x,ret.y,true);
-	CString s;
-	s.Format("%d %d",my_status[2][5].way[2], my_status[2][5].way[6]);
-	//AfxMessageBox(s);
 }
