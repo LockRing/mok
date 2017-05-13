@@ -222,6 +222,82 @@ ordered_pair check_three()
 						}
 					}
 				}
+
+				{
+					int k = 0;
+					int count3 = 0;
+					int count21 = 0;
+					int open = 0;
+					int fourcl = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] >= 4)
+						{
+							++count3;
+							if (open_check(i, j, k, my_status[i][j].way[k], true))
+							{
+								++fourcl;
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, true))
+							{
+								++fourcl;
+								++open;
+							}
+						}
+						else if (my_status[i][j].way[k] >= 3 && my_status[i - way[k].y][j - way[k].x].is_check == true && my_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] >= 2)
+						{
+							++count21;
+							if (open_check(i, j, k, my_status[i][j].way[k], true))
+							{
+								++open;
+							}
+							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, my_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8], true))
+							{
+								++open;
+							}
+						}
+						else if (my_status[i + way[k].y][j + way[k].x].is_check == true && my_status[i + way[k].y][j + way[k].x].way[k] >= 4)
+						{
+							++count3;
+							if (open_check(i + way[k].y, j + way[k].x, k, my_status[i + way[k].y][j + way[k].x].way[k], true))
+							{
+								++fourcl;
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, true))
+							{
+								++fourcl;
+								++open;
+							}
+						}
+						else if (my_status[i + way[k].y][j + way[k].x].is_check == true && my_status[i + way[k].y][j + way[k].x].way[k] >= 3 && my_status[i][j].way[(4 + k) % 8] >= 2)
+						{
+							++count21;
+							if (open_check(i + way[k].y, j + way[k].x, k, my_status[i + way[k].y][j + way[k].x].way[k], true))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, true))
+							{
+								++open;
+							}
+						}
+
+						if (count3 > 1 && fourcl > 0)
+						{
+							return{ j,i };
+						}
+						else if (count3 > 0 && count21 > 0 && open > 0 && fourcl > 0)
+						{
+							return{ j,i };
+						}
+						else if (count21 > 1)
+						{
+							return{ j,i };
+						}
+					}
+				}
 				/*
 				{
 				int k = 0;
@@ -249,6 +325,52 @@ ordered_pair check_three()
 				}
 				}
 				*/
+			}
+
+			{
+				if (map[i][j] == EMPTY)
+				{
+					int k = 0;
+					int count4c = 0;
+					int count4d = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 4)
+						{
+							++count4c;
+							if (open_check(i, j, k, 4, true))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, true))
+							{
+								++open;
+							}
+						}
+						else if (my_status[i + way[k].y][j + way[k].x].is_check == true && my_status[i + way[k].y][j + way[k].x].way[k] == 4)
+						{
+							++count4d;
+							if (open_check(i + way[k].y, j + way[k].x, k, 4, true))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, true))
+							{
+								++open;
+							}
+						}
+
+						if (count4d > 1)
+						{
+							return{ j,i };
+						}
+						else if (count4d > 0 && count4c > 0 && open > 0)
+						{
+							return{ j,i };
+						}
+					}
+				}
 			}
 		}
 	}
@@ -377,6 +499,82 @@ ordered_pair check_six() {//적4.4막기
 						}
 					}
 				}
+				
+				{
+					int k = 0;
+					int count3 = 0;
+					int count21 = 0;
+					int open = 0;
+					int fourcl = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i][j].way[k] >= 4)
+						{
+							++count3;
+							if (open_check(i, j, k, enemy_status[i][j].way[k], false))
+							{
+								++fourcl;
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, false))
+							{
+								++fourcl;
+								++open;
+							}
+						}
+						else if (enemy_status[i][j].way[k] >= 3 && enemy_status[i - way[k].y][j - way[k].x].is_check == true && enemy_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] >= 2)
+						{
+							++count21;
+							if (open_check(i, j, k, enemy_status[i][j].way[k], false))
+							{
+								++open;
+							}
+							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, enemy_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8], false))
+							{
+								++open;
+							}
+						}
+						else if (enemy_status[i + way[k].y][j + way[k].x].is_check == true && enemy_status[i + way[k].y][j + way[k].x].way[k] >= 4)
+						{
+							++count3;
+							if (open_check(i + way[k].y, j + way[k].x, k, enemy_status[i + way[k].y][j + way[k].x].way[k], false))
+							{
+								++fourcl;
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, false))
+							{
+								++fourcl;
+								++open;
+							}
+						}
+						else if (enemy_status[i + way[k].y][j + way[k].x].is_check == true && enemy_status[i + way[k].y][j + way[k].x].way[k] >= 3 && enemy_status[i][j].way[(4 + k) % 8] >= 2)
+						{
+							++count21;
+							if (open_check(i + way[k].y, j + way[k].x, k, enemy_status[i + way[k].y][j + way[k].x].way[k], false))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, false))
+							{
+								++open;
+							}
+						}
+
+						if (count3 > 1 && fourcl > 0)
+						{
+							return {j,i};
+						}
+						else if (count3 > 0 && count21 > 0 && open > 0 && fourcl > 0)
+						{
+							return {j,i};
+						}
+						else if (count21 > 1)
+						{
+							return {j,i};
+						}
+					}
+				}
 				/*
 				{
 					int k = 0;
@@ -404,6 +602,52 @@ ordered_pair check_six() {//적4.4막기
 					}
 				}
 				*/
+			}
+
+			{
+				if (map[i][j] == EMPTY)
+				{
+					int k = 0;
+					int count4c = 0;
+					int count4d = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i][j].way[k] == 4)
+						{
+							++count4c;
+							if (open_check(i, j, k, 4, false))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, false))
+							{
+								++open;
+							}
+						}
+						else if (enemy_status[i + way[k].y][j + way[k].x].is_check == true && enemy_status[i + way[k].y][j + way[k].x].way[k] == 4)
+						{
+							++count4d;
+							if (open_check(i + way[k].y, j + way[k].x, k, 4, false))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, false))
+							{
+								++open;
+							}
+						}
+
+						if (count4d > 1)
+						{
+							return{ j,i };
+						}
+						else if (count4d > 0 && count4c > 0 && open > 0)
+						{
+							return{ j,i };
+						}
+					}
+				}
 			}
 		}
 	}
@@ -455,6 +699,49 @@ ordered_pair check_seven() {//4.3
 						if (count4 > 0 && count3 > 0 && open > 2)
 						{
 							return {j,i};
+						}
+					}
+				}
+
+				{
+					int k = 0;
+					int count11 = 0;
+					int count32 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 3 && my_status[i][j].way[(4 + k) % 8] == 2)
+						{
+							++count32;
+							if (open_check(i, j, k, 3, true))
+							{
+								++open;
+								if (open_check(i, j, (4 + k) % 8, 2, true))
+								{
+									return{ j,i };
+								}
+							}
+							if (open_check(i, j, (4 + k) % 8, 2, true))
+							{
+								++open;
+							}
+						}
+						if (my_status[i][j].way[k] == 2 && my_status[i][j].way[(4 + k) % 8] == 2)
+						{
+							++count11;
+							if (open_check(i, j, k, 2, true))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 2, true))
+							{
+								++open;
+							}
+						}
+
+						if (count32 > 0 && count11 > 0 && open > 2)
+						{
+							return{ j,i };
 						}
 					}
 				}
@@ -544,6 +831,194 @@ ordered_pair check_seven() {//4.3
 						if (count4 > 0 && count11 > 0 && open > 2)
 						{
 							return {j,i};
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return{ -1,-1 };
+}
+
+ordered_pair check_seven5()
+{
+	int i, j;
+	for (i = 0; i < MAXXY; i++) {
+		for (j = 0; j < MAXXY; j++) {
+			if (enemy_status[i][j].is_check == true)
+			{
+				{
+					int k = 0;
+					int count3 = 0;
+					int count4 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i][j].way[k] == 4)
+						{
+							++count4;
+							if (open_check(i, j, k, 4, false))
+							{
+								++open;
+								if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != my_color)
+								{
+									return{ j,i };
+								}
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != my_color)
+							{
+								++open;
+							}
+						}
+						if (enemy_status[i][j].way[k] == 3)
+						{
+							++count3;
+							if (open_check(i, j, k, 2, false))
+							{
+								++open;
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != my_color)
+							{
+								++open;
+							}
+						}
+
+						if (count4 > 0 && count3 > 0 && open > 2)
+						{
+							return{ j,i };
+						}
+					}
+				}
+
+				{
+					int k = 0;
+					int count3 = 0;
+					int count32 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i][j].way[k] == 3 && enemy_status[i][j].way[(4 + k) % 8] == 2)
+						{
+							++count32;
+							if (open_check(i, j, k, 3, false))
+							{
+								++open;
+								if (open_check(i, j, (4 + k) % 8, 2, false))
+								{
+									return{ j,i };
+								}
+							}
+							if (open_check(i, j, (4 + k) % 8, 2, false))
+							{
+								++open;
+							}
+						}
+						else if (enemy_status[i][j].way[k] == 3)
+						{
+							++count3;
+							if (open_check(i, j, k, 3, false))
+							{
+								++open;
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != my_color)
+							{
+								++open;
+							}
+						}
+
+						if (count32 > 0 && count3 > 0 && open > 2)
+						{
+							return{ j,i };
+						}
+					}
+				}
+
+				{
+					int k = 0;
+					int count11 = 0;
+					int count32 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i][j].way[k] == 3 && enemy_status[i][j].way[(4 + k) % 8] == 2)
+						{
+							++count32;
+							if (open_check(i, j, k, 3, false))
+							{
+								++open;
+								if (open_check(i, j, (4 + k) % 8, 2, false))
+								{
+									return{ j,i };
+								}
+							}
+							if (open_check(i, j, (4 + k) % 8, 2, false))
+							{
+								++open;
+							}
+						}
+						if (enemy_status[i][j].way[k] == 2 && enemy_status[i][j].way[(4 + k) % 8] == 2)
+						{
+							++count11;
+							if (open_check(i, j,k, 2, false))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 2, false))
+							{
+								++open;
+							}
+						}
+
+						if (count32 > 0 && count11 > 0 && open > 2)
+						{
+							return {j,i};
+						}
+					}
+				}
+
+				{
+					int k = 0;
+					int count4 = 0;
+					int count11 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i][j].way[k] == 4)
+						{
+							++count4;
+							if (open_check(i, j, k, 4, false))
+							{
+								++open;
+								if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != my_color)
+								{
+									return{ j,i };
+								}
+							}
+							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != my_color)
+							{
+								++open;
+							}
+						}
+
+						if (k < 4)
+						{
+							if (enemy_status[i][j].way[k] == 2 && enemy_status[i][j].way[(4 + k) % 8] == 2)
+							{
+								++count11;
+								if (open_check(i, j, k, 2, false))
+								{
+									++open;
+								}
+								if (open_check(i, j, (4 + k) % 8, 2, false))
+								{
+									++open;
+								}
+							}
+						}
+						if (count4 > 0 && count11 > 0 && open > 2)
+						{
+							return{ j,i };
 						}
 					}
 				}
@@ -920,6 +1395,31 @@ ordered_pair check_twelve()
 	return {-1,-1};
 }
 
+ordered_pair check_thirteen()
+{
+	int i = 0;
+	int j = 0;
+	for (; i<MAXXY; ++i)
+	{
+		j = 0;
+		for (; j<MAXXY; ++j)
+		{
+			if (enemy_status[i][j].is_check == true)
+			{
+				int k = 0;
+				for (; k<8; ++k)
+				{
+					if (enemy_status[i][j].way[k] == 3 && open_check(i, j, k, 3, false) && open_check(i, j, (4 + k) % 8, 1, false))
+					{
+						return{ j,i };
+					}
+				}
+			}
+		}
+	}
+	return{ -1,-1 };
+}
+
 void get_map() {
 	int i, j;
 	for (i = 0; i < MAXXY; i++) {
@@ -1046,6 +1546,11 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}
+	ret = check_seven5();
+	if (ret.x > -1)
+	{
+		return ret;
+	}
 	ret = check_eight();
 	if (ret.x > -1)
 	{
@@ -1067,6 +1572,11 @@ ordered_pair eval_weight() {
 		return ret;
 	}
 
+	ret = check_thirteen();
+	if (ret.x > -1)
+	{
+		return ret;
+	}
 	int i = 0;
 	int j = 0;
 	int chk = 0;
