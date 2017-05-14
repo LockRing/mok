@@ -687,7 +687,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							}
 							if (open_check(i, j, (4 + k) % 8, 1, maps,me))
 							{
-++open;
+								++open;
 							}
 						}
 						else if (chk_status[i][j].way[k] == 2 && chk_status[i - way[k].y][j - way[k].x].is_check == true && chk_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2)
@@ -771,28 +771,69 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 				{
 
 					int k = 0;
+					int tmpk = -1;
 					int count = 0;
 					for (; k < 8; ++k)
 					{
 						if (chk_status[i][j].way[k] == 3 && open_check(i, j, (4 + k) % 8, 1, maps, me) && open_check(i, j, k, 3, maps, me))
 						{
-							++count;
+							if (tmpk < 0)
+							{
+								tmpk = k;
+								++count;
+							}
+							else if(tmpk != (k + 4) % 8)
+							{
+								++count;
+							}
 						}
 						else if (k < 4 && chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i, j, (4 + k) % 8, 2, maps, me))
 						{
-							++count;
+							if (tmpk < 0)
+							{
+								tmpk = k;
+								++count;
+							}
+							else if (tmpk != (k + 4) % 8)
+							{
+								++count;
+							}
 						}
 						else if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
 						{
-							++count;
+							if (tmpk < 0)
+							{
+								tmpk = k;
+								++count;
+							}
+							else if (tmpk != (k + 4) % 8)
+							{
+								++count;
+							}
 						}
 						else if (chk_status[i][j].way[k] == 2 && chk_status[i - way[k].y][j - way[k].x].is_check == true && chk_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, maps, me))
 						{
-							++count;
+							if (tmpk < 0)
+							{
+								tmpk = k;
+								++count;
+							}
+							else if (tmpk != (k + 4) % 8)
+							{
+								++count;
+							}
 						}
 						else if (chk_status[i][j].way[k] == 2 && open_check(i, j, k, 2, maps, me) && chk_status[i + 2 * way[k].y][j + 2 * way[k].x].is_check == true && chk_status[i + 2 * way[k].y][j + 2 * way[k].x].way[k] == 2 && open_check(i + 2 * way[k].y, j + 2 * way[k].x, k, 2, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
 						{
-							++count;
+							if (tmpk < 0)
+							{
+								tmpk = k;
+								++count;
+							}
+							else if (tmpk != (k + 4) % 8)
+							{
+								++count;
+							}
 						}
 
 						if (count > 1)
@@ -803,197 +844,6 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 
 				}
 
-
-
-				/*
-
-				{
-					int k = 0;
-					int count = 0;
-					for (; k < 8; ++k)
-					{
-						if (chk_status[i][j].way[k] == 3)
-						{
-							if (open_check(i, j, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-							{
-								++count;
-							}
-						}
-						if (count > 1)
-						{
-							return{ j,i };
-						}
-					}
-				}
-
-				{
-					int k = 0;
-					int count = 0;
-					for (; k < 4; ++k)
-					{
-						if (chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps,me) && open_check(i, j, (4 + k) % 8, 2, maps,me))
-						{
-							++count;
-						}
-
-						if (count > 1)
-						{
-							return{ j,i };
-						}
-					}
-				}
-
-				{
-					int k = 0;
-					int count = 0;
-					int count11 = 0;
-					for (; k < 8; ++k)
-					{
-						if (chk_status[i][j].way[k] == 3 && open_check(i, j, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-						{
-							++count;
-						}
-						if (k < 4)
-						{
-							if (chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps,me) && open_check(i, j, (4 + k) % 8, 2, maps,me))
-							{
-								++count;
-							}
-						}
-
-						if (count > 1)
-						{
-							return{ j,i };
-						}
-					}
-				}
-
-				{
-					int k = 0;;
-					int count = 0;
-					for (; k < 8; ++k)
-					{
-						if (chk_status[i][j].way[k] == 3)
-						{
-							
-							if (open_check(i, j, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-							{
-								++count;
-							}
-						}
-						else if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3)
-						{
-							
-							if (open_check(i + way[k].y, j + way[k].x, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-							{
-								++count;
-							}
-						}
-						if (k < 4)
-						{
-							if (chk_status[i][j].way[k] == 2 && chk_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2)
-							{
-
-								if (open_check(i, j, k, 2, maps, me) && open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, maps, me))
-								{
-									++count;
-								}
-							}
-						}
-
-						if (count > 1)
-						{
-							return {j,i};
-						}
-					}
-				}
-
-				{
-					int k = 0;
-					int count = 0;
-					for (; k < 8; ++k)
-					{
-						if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-						{
-							++count;
-						}
-						else if (chk_status[i][j].way[k] == 2 && chk_status[i - way[k].y][j - way[k].x].is_check == true && chk_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, maps, me))
-						{
-							++count;
-						}
-						if (k < 4)
-						{
-							if (chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i, j, (4 + k) % 8, 2, maps, me))
-							{
-								++count;
-							}
-						}
-						if (count > 1)
-						{
-							return {j,i};
-						}
-					}
-				}
-
-				{
-					int k = 0;
-					int count = 0;
-					for (; k < 8; ++k)
-					{
-						if (chk_status[i][j].way[k] == 3 && open_check(i, j, k, 3, maps, me))
-						{
-							++count;
-						}
-						else if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-						{
-							++count;
-						}
-
-						if (count > 1)
-						{
-							return {j,i};
-						}
-					}
-				}
-
-				{
-					int count = 0;
-					int k;
-					for (k = 0; k < 8; k++) {
-						if (chk_status[i][j].way[k] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i+way[k].y, j+way[k].x, (k + 4) % 8, 2, maps, me) && chk_status[i + way[k].y][j + way[k].x].way[(k + 4) % 8] == 2) {
-							count++;
-						}
-						if (count > 1) {
-							
-							return{ j,i };
-						}
-					}
-				}
-
-				{
-					int count = 0;
-					int k;
-					for (k = 0; k < 8; ++k)
-					{
-						if (chk_status[i][j].way[k] == 2 && open_check(i, j, k, 2, maps, me) && chk_status[i + 2 * way[k].y][j + 2 * way[k].x].is_check == true && chk_status[i + 2 * way[k].y][j + 2 * way[k].x].way[k] == 2 && open_check(i + 2 * way[k].y, j + 2 * way[k].x, k, 2, maps, me) && open_check(i,j,(4 + k) % 8,1,maps,me))
-						{
-							++count;
-						}
-						else if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x,k,3,maps,me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-						{
-							++count;
-						}
-						else if (chk_status[i][j].way[k] == 3 && open_check(i, j, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
-						{
-							++count;
-						}
-
-						if (count > 1)
-						{
-							return {j,i};
-						}
-					}
-				}*/
 			}
 
 			if (maps[i][j] == EMPTY)
@@ -1014,42 +864,6 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 						return {j,i};
 					}
 				}
-				/*int count = 0;
-				if (chk_status[i][j].is_check == true)
-				{
-					int k = 0;
-					for (; k < 8; ++k)
-					{
-						if (chk_status[i][j].way[k] == 3 && open_check(i, j, k, 3, maps,me) && open_check(i, j, (4 + k) % 8, 1, maps,me))
-						{
-							++count;
-						}
-						else if (chk_status[i][j].way[k] == 1 && chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, maps,me) && open_check(i, j, (4 + k) % 8, 1, maps,me))
-						{
-							++count;
-						}
-					}
-
-				}
-				else
-				{
-					int k = 0;
-					for (; k < 8; ++k)
-					{
-						if (chk_status[i + way[k].y][j + way[k].x].is_check == true)
-						{
-							if (chk_status[i + way[k].y][j + way[k].x].way[k] == 3 && open_check(i + way[k].y, j + way[k].x, k, 3, maps,me) && open_check(i, j, (4 + k) % 8, 1, maps,me))
-							{
-								++count;
-							}
-						}
-					}
-				}
-
-				if (count > 1)
-				{
-					return{ j,i };
-				}*/
 			}
 		}
 	}
@@ -1157,215 +971,212 @@ ordered_pair eval_weight() {
 		return ret;
 	}*/
 	
-	//int i = 0;
-	//int j = 0;
-	//int c;
-	//int d;
+	int i = 0;
+	int j = 0;
+	int c;
+	int d;
 
-	//int level = 0;
-	//ordered_pair tmpret = {-1,-1};
+	int level = 0;
+	ordered_pair tmpret = {-1,-1};
 
-	//for (c = 0; c < MAXXY; ++c)
-	//{
-	//	for (d = 0; d < MAXXY; ++d)
-	//	{
-	//		if (my_status[c][d].is_check == true || enemy_status[c][d].is_check == true)
-	//		{
-	//			status my_stat[MAXXY][MAXXY];
-	//			status enemy_stat[MAXXY][MAXXY];
-	//			int map_one[MAXXY][MAXXY];
+	for (c = 0; c < MAXXY; ++c)
+	{
+		for (d = 0; d < MAXXY; ++d)
+		{
+			if (my_status[c][d].is_check == true || enemy_status[c][d].is_check == true)
+			{
+				status my_stat[MAXXY][MAXXY];
+				status enemy_stat[MAXXY][MAXXY];
+				int map_one[MAXXY][MAXXY];
 
-	//			memcpy(map_one, map, sizeof(map_one));
-	//			memcpy(my_stat, my_status, sizeof(my_stat));
-	//			map_one[c][d] = my_color;
-	//			my_stat[c][d].is_check = false;
-	//			update_status(d, c, my_stat, NULL, map_one, true);
-	//			ret = check_four_four(my_stat, NULL, map_one, true);
-	//			if (ret.x > -1)
-	//			{
-	//				ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
-	//				if (ret.x != ret5.x && ret.y != ret5.y)
-	//				{
-	//					return{ d,c };
-	//				}
-	//				else
-	//				{
-	//					if (level > 0)
-	//					{
-	//						level = 0;
-	//						tmpret = {d,c};
-	//					}
-	//				}
-	//			}
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(my_stat, my_status, sizeof(my_stat));
+				map_one[c][d] = my_color;
+				my_stat[c][d].is_check = false;
+				update_status(d, c, my_stat, NULL, map_one, true);
+				ret = check_four_four(my_stat, NULL, map_one, true);
+				if (ret.x > -1)
+				{
+					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
+					if (ret.x != ret5.x && ret.y != ret5.y)
+					{
+						return{ d,c };
+					}
+					else
+					{
+						if (level > 0)
+						{
+							level = 0;
+							tmpret = {d,c};
+						}
+					}
+				}
 
-	//			memcpy(map_one, map, sizeof(map_one));
-	//			memcpy(enemy_stat, enemy_status, sizeof(my_stat));
-	//			map_one[c][d] = enemy_color;
-	//			enemy_stat[c][d].is_check = false;
-	//			update_status(d, c, NULL, enemy_stat, map_one, false);
-	//			ret = check_four_four(NULL, enemy_stat, map_one, false);
-	//			if (ret.x > -1)
-	//			{
-	//				ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
-	//				if (ret.x != ret5.x && ret.y != ret5.y)
-	//				{
-	//					return{ d,c };
-	//				}
-	//				else
-	//				{
-	//					if (level > 1)
-	//					{
-	//						level = 1;
-	//						tmpret = {d,c};
-	//					}
-	//				}
-	//			}
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(enemy_stat, enemy_status, sizeof(my_stat));
+				map_one[c][d] = enemy_color;
+				enemy_stat[c][d].is_check = false;
+				update_status(d, c, NULL, enemy_stat, map_one, false);
+				ret = check_four_four(NULL, enemy_stat, map_one, false);
+				if (ret.x > -1)
+				{
+					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
+					if (ret.x != ret5.x && ret.y != ret5.y)
+					{
+						return{ d,c };
+					}
+					else
+					{
+						if (level > 1)
+						{
+							level = 1;
+							tmpret = {d,c};
+						}
+					}
+				}
 
-	//			memcpy(map_one, map, sizeof(map_one));
-	//			memcpy(my_stat, my_status, sizeof(my_stat));
-	//			map_one[c][d] = my_color;
-	//			my_stat[c][d].is_check = false;
-	//			update_status(d, c, my_stat, NULL, map_one, true);
-	//			ret = check_four_three(my_stat, NULL, map_one, true);
-	//			if (ret.x > -1)
-	//			{
-	//				ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
-	//				if (ret.x != ret5.x && ret.y != ret5.y)
-	//				{
-	//					return{ d,c };
-	//				}
-	//				else
-	//				{
-	//					if (level > 2)
-	//					{
-	//						level = 2;
-	//						tmpret = { d,c };
-	//					}
-	//				}
-	//			}
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(my_stat, my_status, sizeof(my_stat));
+				map_one[c][d] = my_color;
+				my_stat[c][d].is_check = false;
+				update_status(d, c, my_stat, NULL, map_one, true);
+				ret = check_four_three(my_stat, NULL, map_one, true);
+				if (ret.x > -1)
+				{
+					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
+					if (ret.x != ret5.x && ret.y != ret5.y)
+					{
+						return{ d,c };
+					}
+					else
+					{
+						if (level > 2)
+						{
+							level = 2;
+							tmpret = { d,c };
+						}
+					}
+				}
 
-	//			memcpy(map_one, map, sizeof(map));
-	//			memcpy(enemy_stat, enemy_status, sizeof(enemy_stat));
-	//			map_one[c][d] = enemy_color;
-	//			enemy_stat[c][d].is_check = false;
-	//			update_status(d, c, NULL, enemy_stat, map_one, false);
-	//			ret = check_four_three(NULL, enemy_stat, map_one, false);
-	//			if (ret.x > -1)
-	//			{
-	//				ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
-	//				if (ret.x != ret5.x && ret.y != ret5.y)
-	//				{
-	//					return{ d,c };
-	//				}
-	//				else
-	//				{
-	//					if (level > 3)
-	//					{
-	//						level = 3;
-	//						tmpret = { d,c };
-	//					}
-	//				}
-	//			}
+				memcpy(map_one, map, sizeof(map));
+				memcpy(enemy_stat, enemy_status, sizeof(enemy_stat));
+				map_one[c][d] = enemy_color;
+				enemy_stat[c][d].is_check = false;
+				update_status(d, c, NULL, enemy_stat, map_one, false);
+				ret = check_four_three(NULL, enemy_stat, map_one, false);
+				if (ret.x > -1)
+				{
+					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
+					if (ret.x != ret5.x && ret.y != ret5.y)
+					{
+						return ret;
+					}
+					else
+					{
+						if (level > 3)
+						{
+							level = 3;
+							tmpret = ret;
+						}
+					}
+				}
 
-	//			memcpy(map_one, map, sizeof(map_one));
-	//			memcpy(my_stat, my_status, sizeof(my_stat));
-	//			map_one[c][d] = my_color;
-	//			my_stat[c][d].is_check = false;
-	//			update_status(d, c, my_stat, NULL, map_one, true);
-	//			ret = check_three_three(my_stat, NULL, map_one, true);
-	//			if (ret.x > -1)
-	//			{
-	//				ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
-	//				if (ret.x != ret5.x && ret.y != ret5.y)
-	//				{
-	//					return{ d,c };
-	//				}
-	//				else
-	//				{
-	//					if (level > 4)
-	//					{
-	//						level = 4;
-	//						tmpret = { d,c };
-	//					}
-	//				}
-	//			}
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(my_stat, my_status, sizeof(my_stat));
+				map_one[c][d] = my_color;
+				my_stat[c][d].is_check = false;
+				update_status(d, c, my_stat, NULL, map_one, true);
+				ret = check_three_three(my_stat, NULL, map_one, true);
+				if (ret.x > -1)
+				{
+					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
+					if (ret.x != ret5.x && ret.y != ret5.y)
+					{
+						return{ d,c };
+					}
+					else
+					{
+						if (level > 4)
+						{
+							level = 4;
+							tmpret = { d,c };
+						}
+					}
+				}
 
-	//			memcpy(map_one,map,sizeof(map));
-	//			memcpy(enemy_stat, enemy_status, sizeof(enemy_stat));
-	//			map_one[c][d] = enemy_color;
-	//			enemy_stat[c][d].is_check = false;
-	//			update_status(d, c, NULL, enemy_stat, map_one, false);
-	//			ret = check_three_three(NULL, enemy_stat, map_one, false);
-	//			if (ret.x > -1)
-	//			{
-	//				CString w;
-	//				w.Format("%d %d",ret.x, ret.y);
-	//				AfxMessageBox(w);
-	//				ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
-	//				if (ret.x != ret5.x && ret.y != ret5.y)
-	//				{
-	//					return ret;
-	//				}
-	//				else
-	//				{
-	//					if (level > 5)
-	//					{
-	//						level = 5;
-	//						tmpret = ret;
-	//					}
-	//				}
-	//			}
+				memcpy(map_one,map,sizeof(map));
+				memcpy(enemy_stat, enemy_status, sizeof(enemy_stat));
+				map_one[c][d] = enemy_color;
+				enemy_stat[c][d].is_check = false;
+				update_status(d, c, NULL, enemy_stat, map_one, false);
+				ret = check_three_three(NULL, enemy_stat, map_one, false);
+				if (ret.x > -1)
+				{
+					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
+					if (ret.x != ret5.x && ret.y != ret5.y)
+					{
+						return ret;
+					}
+					else
+					{
+						if (level > 5)
+						{
+							level = 5;
+							tmpret = ret;
+						}
+					}
+				}
 
-	//		}
-	//	}
-	//}
+			}
+		}
+	}
 
-	//if (tmpret.x > -1)
-	//{
-	//	return tmpret;
-	//}
-	//
-	//i = 0;
-	//int chk = 0;
-	//for (; i < MAXXY; ++i)
-	//{
-	//	j = 0;
-	//	for (; j < MAXXY; ++j)
-	//	{
-	//		int k = 0;
-	//		int here = 0;
-	//		if (enemy_status[i][j].is_check == true)
-	//		{
-	//			for (; k < 8; ++k)
-	//			{
-	//				here += enemy_status[i][j].way[k] * 3;
-	//				if (map[i + way[k].y][j + way[k].x] == EMPTY)
-	//				{
-	//					++here;
-	//				}
-	//			}
-	//		}
-	//		if (my_status[i][j].is_check == true)
-	//		{
-	//			for (k = 0; k < 8; ++k)
-	//			{
-	//				here += enemy_status[i][j].way[k] * 2;
-	//			}
-	//		}
+	if (tmpret.x > -1)
+	{
+		return tmpret;
+	}
+	
+	i = 0;
+	int chk = 0;
+	for (; i < MAXXY; ++i)
+	{
+		j = 0;
+		for (; j < MAXXY; ++j)
+		{
+			int k = 0;
+			int here = 0;
+			if (enemy_status[i][j].is_check == true)
+			{
+				for (; k < 8; ++k)
+				{
+					here += enemy_status[i][j].way[k] * 3;
+					if (map[i + way[k].y][j + way[k].x] == EMPTY)
+					{
+						++here;
+					}
+				}
+			}
+			if (my_status[i][j].is_check == true)
+			{
+				for (k = 0; k < 8; ++k)
+				{
+					here += enemy_status[i][j].way[k] * 2;
+				}
+			}
 
-	//		if (chk < here)
-	//		{
-	//			chk = here;
-	//			ret.x = j;
-	//			ret.y = i;
-	//		}
-	//	}
-	//}
+			if (chk < here)
+			{
+				chk = here;
+				ret.x = j;
+				ret.y = i;
+			}
+		}
+	}
 
-	//if (ret.x > -1)
-	//{
-	//	return ret;
-	//}
+	if (ret.x > -1)
+	{
+		return ret;
+	}
 	
 	ret.x = rand() % MAXXY;
 	ret.y = rand() % MAXXY;
