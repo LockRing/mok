@@ -858,20 +858,23 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 								++count;
 							}
 						}
-						else if (chk_status[i][j].way[k] == 2 && chk_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2)
+						else if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3)
 						{
-
-							if (open_check(i, j, k, 2, maps, me) && open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, maps, me))
+							
+							if (open_check(i + way[k].y, j + way[k].x, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
 							{
 								++count;
 							}
 						}
-						else if (chk_status[i + way[k].x][j + way[k].y].is_check == true && chk_status[i + way[k].x][j + way[k].y].way[k] == 3)
+						if (k < 4)
 						{
-							
-							if (open_check(i + way[k].x, j + way[k].y, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
+							if (chk_status[i][j].way[k] == 2 && chk_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2)
 							{
-								++count;
+
+								if (open_check(i, j, k, 2, maps, me) && open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, maps, me))
+								{
+									++count;
+								}
 							}
 						}
 
@@ -895,11 +898,13 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 						{
 							++count;
 						}
-						else if (chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i, j, (4 + k) % 8, 2, maps, me))
+						if (k < 4)
 						{
-							++count;
+							if (chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i, j, (4 + k) % 8, 2, maps, me))
+							{
+								++count;
+							}
 						}
-
 						if (count > 1)
 						{
 							return {j,i};
@@ -927,6 +932,7 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 						}
 					}
 				}
+
 				{
 					int count = 0;
 					int k;
@@ -935,6 +941,7 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 							count++;
 						}
 						if (count > 1) {
+							
 							return{ j,i };
 						}
 					}
@@ -1185,7 +1192,7 @@ ordered_pair eval_weight() {
 			}
 		}
 	}
-
+	
 	i = 0;
 	int chk = 0;
 	for (; i < MAXXY; ++i)
