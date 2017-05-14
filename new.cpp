@@ -770,22 +770,16 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 				{
 					int k = 0;
 					int count = 0;
-					int open = 0;
 					for (; k < 8; ++k)
 					{
 						if (chk_status[i][j].way[k] == 3)
 						{
-							++count;
-							if (open_check(i, j, k, 3, maps,me))
+							if (open_check(i, j, k, 3, maps, me) && open_check(i, j, (4 + k) % 8, 1, maps, me))
 							{
-								++open;
-							}
-							if (open_check(i, j, (4 + k) % 8, 1, maps, me))
-							{
-								++open;
+								++count;
 							}
 						}
-						if (count > 1 && open > 3)
+						if (count > 1)
 						{
 							return{ j,i };
 						}
