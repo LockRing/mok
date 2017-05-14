@@ -1104,99 +1104,84 @@ ordered_pair eval_weight() {
 	
 	int i = 0;
 	int j = 0;
-	for (;i < MAXXY; ++i)
+	int c;
+	int d;
+	for (c = 0; c < MAXXY; ++c)
 	{
-		j = 0;
-		for (; j < MAXXY; ++j)
+		for (d = 0; d < MAXXY; ++d)
 		{
-			if (my_status[i][j].is_check == true || enemy_status[i][j].is_check == true)
+			if (my_status[c][d].is_check == true || enemy_status[c][d].is_check == true)
 			{
-				status my_one[MAXXY][MAXXY];
-				status enemy_one[MAXXY][MAXXY];
+				status my_stat[MAXXY][MAXXY];
+				status enemy_stat[MAXXY][MAXXY];
 				int map_one[MAXXY][MAXXY];
-				ordered_pair ret;
-				memcpy(map_one, map, sizeof(map));
-				map_one[i][j] = my_color;
-				memcpy(my_one, my_status, sizeof(my_one));
-				my_one[i][j].is_check = false;
-				update_status(i,j,my_one,NULL,map_one,true);
-				ret = check_four_four(my_one, NULL, map, true);
+
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(my_stat, my_status, sizeof(my_stat));
+				map_one[c][d] = my_color;
+				my_stat[c][d].is_check = false;
+				update_status(d, c, my_stat, NULL, map_one, true);
+				ret = check_four_four(my_stat, NULL, map_one, true);
 				if (ret.x > -1)
 				{
-					
-					return {j,i};
+					return {d,c};
+				}
+
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(enemy_stat, enemy_status, sizeof(my_stat));
+				map_one[c][d] = enemy_color;
+				enemy_stat[c][d].is_check = false;
+				update_status(d, c, NULL, enemy_stat, map_one, false);
+				ret = check_four_four(NULL, enemy_stat, map_one, false);
+				if (ret.x > -1)
+				{
+					return{ d,c };
+				}
+
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(my_stat, my_status, sizeof(my_stat));
+				map_one[c][d] = my_color;
+				my_stat[c][d].is_check = false;
+				update_status(d, c, my_stat, NULL, map_one, true);
+				ret = check_four_three(my_stat, NULL, map_one, true);
+				if (ret.x > -1)
+				{
+					return{ d,c };
 				}
 
 				memcpy(map_one, map, sizeof(map));
-				map_one[i][j] = my_color;
-				memcpy(my_one, my_status, sizeof(my_one));
-				my_one[i][j].is_check = false;
-				update_status(i, j, my_one, NULL, map_one, true);
-				ret = check_four_three(my_one, enemy_one, map, true);
+				memcpy(enemy_stat, enemy_status, sizeof(enemy_stat));
+				map_one[c][d] = enemy_color;
+				enemy_stat[c][d].is_check = false;
+				update_status(d, c, NULL, enemy_stat, map_one, false);
+				ret = check_four_three(NULL, enemy_stat, map_one, false);
 				if (ret.x > -1)
 				{
-					
-					return{ j,i };
+					return{ d,c };
 				}
 
-				memcpy(map_one, map, sizeof(map));
-				map_one[i][j] = enemy_color;
-				memcpy(enemy_one, enemy_status, sizeof(my_one));
-				enemy_one[i][j].is_check = false;
-				update_status(i, j, NULL, enemy_one, map_one, false);
-				ret = check_four_four(my_one, enemy_one, map, false);
+				memcpy(map_one, map, sizeof(map_one));
+				memcpy(my_stat, my_status, sizeof(my_stat));
+				map_one[c][d] = my_color;
+				my_stat[c][d].is_check = false;
+				update_status(d, c, my_stat, NULL, map_one, true);
+				ret = check_three_three(my_stat, NULL, map_one, true);
 				if (ret.x > -1)
 				{
-
-					return{ j,i };
+					return{ d,c };
 				}
 
-				memcpy(map_one, map, sizeof(map));
-				map_one[i][j] = my_color;
-				memcpy(my_one, my_status, sizeof(my_one));
-				my_one[i][j].is_check = false;
-				update_status(i, j, my_one, NULL, map_one, true);
-				ret = check_four_three(my_one, enemy_one, map, true);
+				memcpy(map_one,map,sizeof(map));
+				memcpy(enemy_stat, enemy_status, sizeof(enemy_stat));
+				map_one[c][d] = enemy_color;
+				enemy_stat[c][d].is_check = false;
+				update_status(d, c, NULL, enemy_stat, map_one, false);
+				ret = check_three_three(NULL, enemy_stat, map_one, false);
 				if (ret.x > -1)
 				{
-					
-					return{ j,i };
+					return {d,c};
 				}
 
-				memcpy(map_one, map, sizeof(map));
-				map_one[i][j] = enemy_color;
-				memcpy(enemy_one, enemy_status, sizeof(my_one));
-				enemy_one[i][j].is_check = false;
-				update_status(i, j, NULL, enemy_one, map_one, false);
-				ret = check_four_three(my_one, enemy_one, map, false);
-				if (ret.x > -1)
-				{
-					
-					return{ j,i };
-				}
-
-				memcpy(map_one, map, sizeof(map));
-				map_one[i][j] = my_color;
-				memcpy(my_one, my_status, sizeof(my_one));
-				my_one[i][j].is_check = false;
-				update_status(i, j, my_one, NULL, map_one, true);
-				ret = check_three_three(my_one, enemy_one, map, true);
-				if (ret.x > -1)
-				{
-					
-					return{ j,i };
-				}
-
-				memcpy(map_one, map, sizeof(map));
-				map_one[i][j] = enemy_color;
-				memcpy(enemy_one, enemy_status, sizeof(my_one));
-				enemy_one[i][j].is_check = false;
-				update_status(i, j, NULL, enemy_one, map_one, false);
-				ret = check_three_three(my_one, enemy_one, map, false);
-				if (ret.x > -1)
-				{
-					return{ j,i };
-				}
 			}
 		}
 	}
