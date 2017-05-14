@@ -933,6 +933,18 @@ ordered_pair check_three_three(status my_stat[][MAXXY], status enemy_stat[][MAXX
 						}
 					}
 				}
+				{
+					int count = 0;
+					int k;
+					for (k = 0; k < 8; k++) {
+						if (chk_status[i][j].way[k] == 2 && open_check(i, j, k, 2, maps, me) && open_check(i+way[k].y, j+way[k].x, (k + 4) % 8, 2, maps, me) && chk_status[i + way[k].y][j + way[k].x].way[(k + 4) % 8] == 2) {
+							count++;
+						}
+						if (count > 1) {
+							return{ j,i };
+						}
+					}
+				}
 			}
 
 			if (maps[i][j] == EMPTY)
