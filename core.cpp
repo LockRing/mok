@@ -17,7 +17,6 @@ typedef struct status {
 #define OUTBD -2
 
 int map[MAXXY][MAXXY];
-int weight[MAXXY][MAXXY] = { 0, };
 
 ordered_pair way[8] = { {0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1} };
 ordered_pair enemy;
@@ -65,8 +64,6 @@ status my_status[MAXXY][MAXXY];
 -11 : 적
 */
 status enemy_status[MAXXY][MAXXY];// 읽어온 map으로 union find 평가 한다.
-
-int turn = 0;
 
 extern int B(int x, int y, int def = OUTBD);
 void init() {
@@ -834,6 +831,45 @@ ordered_pair check_seven() {//4.3
 						}
 					}
 				}
+
+				{
+					int k = 0;
+					int count4 = 0;
+					int count11 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (my_status[i][j].way[k] == 4)
+						{
+							++count4;
+							if (open_check(i, j, k, 4, true))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, true))
+							{
+								++open;
+							}
+						}
+						else if(my_status[i][j].way[k] == 2 && my_status[i -way[k].y][j - way[k].x].is_check == true && my_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2)
+						{
+							++count11;
+							if (open_check(i, j, k, 2, true))
+							{
+								++open;
+							}
+							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, true))
+							{
+								++open;
+							}
+						}
+
+						if (count4 > 0 && count11 > 0 && open > 1)
+						{
+							return{j,i};
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1017,6 +1053,45 @@ ordered_pair check_seven5()
 							}
 						}
 						if (count4 > 0 && count11 > 0 && open > 2)
+						{
+							return{ j,i };
+						}
+					}
+				}
+
+				{
+					int k = 0;
+					int count4 = 0;
+					int count11 = 0;
+					int open = 0;
+					for (; k < 8; ++k)
+					{
+						if (enemy_status[i][j].way[k] == 4)
+						{
+							++count4;
+							if (open_check(i, j, k, 4, false))
+							{
+								++open;
+							}
+							if (open_check(i, j, (4 + k) % 8, 1, false))
+							{
+								++open;
+							}
+						}
+						else if (enemy_status[i][j].way[k] == 2 && enemy_status[i - way[k].y][j - way[k].x].is_check == true && enemy_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2)
+						{
+							++count11;
+							if (open_check(i, j, k, 2, false))
+							{
+								++open;
+							}
+							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, false))
+							{
+								++open;
+							}
+						}
+
+						if (count4 > 0 && count11 > 0 && open > 1)
 						{
 							return{ j,i };
 						}
@@ -1571,8 +1646,7 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}
-
-	ret = check_thirteen();
+	//ret = check_thirteen();
 	if (ret.x > -1)
 	{
 		return ret;
@@ -1591,14 +1665,14 @@ ordered_pair eval_weight() {
 			{
 				for (; k < 8; ++k)
 				{
-					here += enemy_status[i][j].way[k];
+					here += enemy_status[i][j].way[k] * 3;
 				}
 			}
 			if (my_status[i][j].is_check == true)
 			{
 				for (k = 0; k < 8; ++k)
 				{
-					here += enemy_status[i][j].way[k];
+					here += enemy_status[i][j].way[k] * 2;
 				}
 			}
 
