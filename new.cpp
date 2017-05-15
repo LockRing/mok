@@ -259,6 +259,38 @@ ordered_pair check_four_four(status my_stat[][MAXXY], status enemy_stat[][MAXXY]
 						}
 					}
 
+					if (me == false)
+					{
+						int k;
+						int count = 0;
+						int open = 0;
+						for (k = 0; k < 8; ++k)
+						{
+							if (chk_status[i][j].way[k] == 4 && !(open_check(i, j, k, chk_status[i][j].way[k], maps, me)))
+							{
+								++count;
+								if (open_check(i, j, (4 + k) % 8, 1, maps, me))
+								{
+									++open;
+								}
+							}
+							else if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 4 && open_check(i + way[k].y, j + way[k].x, k, 4, maps, me))
+							{
+								++open;
+								++count;
+								if (open_check(i, j, (4 + k) % 8, 1, maps, me))
+								{
+									++open;
+								}
+							}
+
+							if (count > 1 && open_check > 0)
+							{
+								return {i + way[k].y};
+							}
+						}
+					}
+
 					{// 3
 						int k = 0;
 						int count3d = 0;
@@ -446,7 +478,19 @@ ordered_pair check_open_four(status my_stat[][MAXXY], status enemy_stat[][MAXXY]
 				{
 					if (chk_status[i][j].way[k] == 4 && open_check(i, j, k, 4, maps,me) && open_check(i - way[k].y,j - way[k].x,(4 + k) % 8,1,maps,me))
 					{
-						return{ j,i };
+						if (me == false)
+						{
+							int c;
+							for (c = 0; c < 8; ++c)
+							{
+								if ((i + way[c].y) >= 0 && (i + way[c].y) < MAXXY && (j + way[c].x) >=0 && (j + way[c].x) < MAXXY && map[i + way[c].y][j + way[c].x] == my_color)
+								{
+									return{j + 4 * way[k].x,i + 4 * way[k].y };
+								}
+							}
+							return{ j,i };
+						}
+						return { j,i };
 					}
 
 					if (chk_status[i][j].way[k] == 3 && chk_status[i][j].way[(4 + k) % 8] == 2 && open_check(i, j, k, 3, maps,me) && open_check(i, j, (4 + k) % 8, 2, maps,me))
@@ -960,16 +1004,16 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}
-	//ret = check_close_four(my_status, enemy_status, map, true);
+	ret = check_close_four(my_status, enemy_status, map, true);
 	if (ret.x > -1)
 	{
 		return ret;
 	}
-	/*ret = check_close_three(my_status, enemy_status, map, true);
+	//ret = check_close_three(my_status, enemy_status, map, true);
 	if (ret.x > -1)
 	{
 		return ret;
-	}*/
+	}
 	
 	int i = 0;
 	int j = 0;
@@ -1089,7 +1133,7 @@ ordered_pair eval_weight() {
 				ret = check_three_three(my_stat, NULL, map_one, true);
 				if (ret.x > -1)
 				{
-					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
+					ordered_pair ret5 = check_open_four(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
 						return{ d,c };
@@ -1112,7 +1156,7 @@ ordered_pair eval_weight() {
 				ret = check_three_three(NULL, enemy_stat, map_one, false);
 				if (ret.x > -1)
 				{
-					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
+					ordered_pair ret5 = check_open_four(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
 						return ret;
