@@ -19,7 +19,7 @@ typedef struct status {
 
 static int map[MAXXY][MAXXY];
 
-ordered_pair way[8] = { { 0,-1 },{ 1,-1 },{ 1,0 },{ 1,1 },{ 0,1 },{ -1,1 },{ -1,0 },{ -1,-1 } };
+static ordered_pair way[8] = { { 0,-1 },{ 1,-1 },{ 1,0 },{ 1,1 },{ 0,1 },{ -1,1 },{ -1,0 },{ -1,-1 } };
 
 static int my_color;
 static int enemy_color;
@@ -42,7 +42,7 @@ void init() {
 			for (; k < 8; ++k)
 			{
 				enemy_status[i][j].way[k] = 1;
-				enemy_status[i][j].way[k] = 1;
+				my_status[i][j].way[k] = 1;
 			}
 			enemy_status[i][j].is_check = false;
 			//memset(my_status[i][j].way, 1, 8);
@@ -1158,12 +1158,12 @@ ordered_pair eval_weight() {
 			return ret;
 		}
 	}
-
+	
 	int i = 0;
 	int j = 0;
 	int c;
 	int d;
-	int level = 0;
+	int level = -1;
 	ordered_pair tmpret = {-1,-1};
 
 	for (c = 0; c < MAXXY; ++c)
@@ -1318,7 +1318,7 @@ ordered_pair eval_weight() {
 					}
 				}
 
-				memcpy(map_one, map, sizeof(map_one));
+				/*memcpy(map_one, map, sizeof(map_one));
 				memcpy(my_stat, my_status, sizeof(my_stat));
 				map_one[c][d] = my_color;
 				my_stat[c][d].is_check = false;
@@ -1360,10 +1360,15 @@ ordered_pair eval_weight() {
 							tmpret = ret;
 						}
 					}
-				}
+				}*/
 
 			}
 		}
+	}
+
+	if (level > -1)
+	{
+		return tmpret;
 	}
 	/*if (tmpret.x < 0)
 	{
