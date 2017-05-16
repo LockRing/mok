@@ -585,7 +585,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 						if (chk_status[i][j].way[k] == 3)
 						{
 							++count3;
-							if (open_check(i, j, k, 2, maps,me))
+							if (open_check(i, j, k, 3, maps,me))
 							{
 								++open;
 							}
@@ -1106,7 +1106,7 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}*/
-CString s;
+//CString s;
 	{
 		int i,j,k;
 		int max_count = -1;
@@ -1156,7 +1156,7 @@ CString s;
 		}
 		if (ret.x > -1)
 		{
-			AfxMessageBox("1");
+			//AfxMessageBox("1");
 			return ret;
 		}
 	}
@@ -1189,15 +1189,15 @@ CString s;
 					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("I44 assume %d %d : %d %d",d,c,ret.x,ret.y);
-						AfxMessageBox(s);
+						//s.Format("I44 assume %d %d : %d %d",d,c,ret.x,ret.y);
+						//AfxMessageBox(s);
 						return{ d,c };
 					}
 					ret5 = check_open_four(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("I44 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("I44 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return{ d,c };
 					}
 					else
@@ -1218,8 +1218,8 @@ CString s;
 				ret = check_four_four(NULL, enemy_stat, map_one, false);
 				if (ret.x > -1)
 				{
-					s.Format("E44 assume %d %d : %d %d", d, c, ret.x, ret.y);
-					AfxMessageBox(s);
+					//s.Format("E44 assume %d %d : %d %d", d, c, ret.x, ret.y);
+					//AfxMessageBox(s);
 					return{ d,c };
 					/*ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
@@ -1252,15 +1252,15 @@ CString s;
 					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("I43 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("I43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+					//	AfxMessageBox(s);
 						return{ d,c };
 					}
 					ret5 = check_open_four(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("I43 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("I43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return{ d,c };
 					}
 					else
@@ -1284,15 +1284,15 @@ CString s;
 					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("E43 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("E43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return ret;
 					}
 					ret5 = check_open_four(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("E43 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("E43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return ret;
 					}
 
@@ -1317,15 +1317,15 @@ CString s;
 					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("I33 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("I33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return{ d,c };
 					}
 					ret5 = check_open_four(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("I33 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("I33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return{ d,c };
 					}
 					else
@@ -1364,15 +1364,15 @@ CString s;
 					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+					//	s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return ret;
 					}
 					ret5 = check_open_four(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-						s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
-						AfxMessageBox(s);
+						//s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//AfxMessageBox(s);
 						return ret;
 					}
 					else
