@@ -209,7 +209,7 @@ ordered_pair check_four_four(status my_stat[][MAXXY], status enemy_stat[][MAXXY]
 									++open;
 								}
 
-								if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 1, maps, me))
+								if (open_check(i, j, (4 + k) % 8, 1, maps, me))
 								{
 									++open;
 								}
@@ -577,7 +577,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							{
 								++open;
 							}
-							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 1, maps, me))
+							if (open_check(i, j, (4 + k) % 8, 1, maps, me))
 							{
 								++open;
 							}
@@ -589,7 +589,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							{
 								++open;
 							}
-							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 1, maps, me))
+							if (open_check(i, j, (4 + k) % 8, 1, maps, me))
 							{
 								++open;
 							}
@@ -621,7 +621,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 								++open;
 							}
 						}
-						if (chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2)
+						if (k < 4 && chk_status[i][j].way[k] == 2 && chk_status[i][j].way[(4 + k) % 8] == 2)
 						{
 							++count11;
 							if (open_check(i, j, k, 2, maps,me))
@@ -667,7 +667,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							{
 								++open;
 							}
-							if ((i - way[k].y) >= 0 && (i - way[k].y) < MAXXY && (j - way[k].x) >= 0 && (j - way[k].x) < MAXXY && map[i - way[k].y][j - way[k].x] != enemy_color)
+							if (open_check(i,j,(4 + k) % 8,1,maps,me))
 							{
 								++open;
 							}
@@ -694,7 +694,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							{
 								++open;
 							}
-							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 1, maps, me))
+							if (open_check(i, j, (4 + k) % 8, 1, maps, me))
 							{
 								++open;
 							}
@@ -1106,11 +1106,12 @@ ordered_pair eval_weight() {
 	{
 		return ret;
 	}*/
-
+CString s;
 	{
 		int i,j,k;
 		int max_count = -1;
 		ordered_pair ret = { -1,-1 };
+		
 		for (i = 0; i < MAXXY; ++i)
 		{
 			for (j = 0; j < MAXXY; ++j)
@@ -1155,6 +1156,7 @@ ordered_pair eval_weight() {
 		}
 		if (ret.x > -1)
 		{
+			AfxMessageBox("1");
 			return ret;
 		}
 	}
@@ -1187,11 +1189,15 @@ ordered_pair eval_weight() {
 					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("I44 assume %d %d : %d %d",d,c,ret.x,ret.y);
+						AfxMessageBox(s);
 						return{ d,c };
 					}
 					ret5 = check_open_four(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("I44 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return{ d,c };
 					}
 					else
@@ -1212,6 +1218,8 @@ ordered_pair eval_weight() {
 				ret = check_four_four(NULL, enemy_stat, map_one, false);
 				if (ret.x > -1)
 				{
+					s.Format("E44 assume %d %d : %d %d", d, c, ret.x, ret.y);
+					AfxMessageBox(s);
 					return{ d,c };
 					/*ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
@@ -1244,11 +1252,15 @@ ordered_pair eval_weight() {
 					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("I43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return{ d,c };
 					}
 					ret5 = check_open_four(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("I43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return{ d,c };
 					}
 					else
@@ -1272,11 +1284,15 @@ ordered_pair eval_weight() {
 					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("E43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return ret;
 					}
 					ret5 = check_open_four(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("E43 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return ret;
 					}
 
@@ -1301,11 +1317,15 @@ ordered_pair eval_weight() {
 					ordered_pair ret5 = check_five(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("I33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return{ d,c };
 					}
 					ret5 = check_open_four(my_stat, NULL, map_one, true);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("I33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return{ d,c };
 					}
 					else
@@ -1331,7 +1351,7 @@ ordered_pair eval_weight() {
 						level = 5;
 						tmpret = { d,c };
 					}
-				}
+				}*/
 
 				memcpy(map_one,map,sizeof(map));
 				memcpy(enemy_stat, enemy_status, sizeof(enemy_stat));
@@ -1344,12 +1364,15 @@ ordered_pair eval_weight() {
 					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
+						s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return ret;
 					}
 					ret5 = check_open_four(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-
+						s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						AfxMessageBox(s);
 						return ret;
 					}
 					else
@@ -1360,7 +1383,7 @@ ordered_pair eval_weight() {
 							tmpret = ret;
 						}
 					}
-				}*/
+				}
 
 			}
 		}
