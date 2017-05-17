@@ -726,7 +726,8 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 					int k = 0;
 					int count4 = 0;
 					int count11 = 0;
-					int open = 0;
+					int open4 = 0;
+					int open1_1 = 0;
 					for (; k < 8; ++k)
 					{
 						if (chk_status[i][j].way[k] == 4)
@@ -734,11 +735,11 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							++count4;
 							if (open_check(i, j, k, 4, maps,me))
 							{
-								++open;
+								++open4;
 							}
 							if (open_check(i, j, (4 + k) % 8, 1, maps,me))
 							{
-								++open;
+								++open4;
 							}
 						}
 						else if (chk_status[i][j].way[k] == 2 && chk_status[i - way[k].y][j - way[k].x].is_check == true && chk_status[i - way[k].y][j - way[k].x].way[(4 + k) % 8] == 2)
@@ -746,15 +747,15 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							++count11;
 							if (open_check(i, j, k, 2, maps, me))
 							{
-								++open;
+								++open1_1;
 							}
 							if (open_check(i - way[k].y, j - way[k].x, (4 + k) % 8, 2, maps, me))
 							{
-								++open;
+								++open1_1;
 							}
 						}
 
-						if (count4 > 0 && count11 > 0 && open > 1)
+						if (count4 > 0 && count11 > 0 && open1_1 > 0 && open4 > 0)
 						{
 							return{ j,i };
 						}
@@ -774,11 +775,19 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 						{
 							++open;
 						}
+						if (open_check(i, j, (4 +k) % 8, 1, maps, me))
+						{
+							++open;
+						}
 					}
 					else if (chk_status[i + way[k].y][j + way[k].x].is_check == true && chk_status[i + way[k].y][j + way[k].x].way[k] == 3)
 					{
 						++count;
 						if (open_check(i + way[k].y, j + way[k].x, k, 3, maps, me))
+						{
+							++open;
+						}
+						if (open_check(i, j, (4 + k) % 8, 1, maps, me))
 						{
 							++open;
 						}
@@ -1253,7 +1262,7 @@ ordered_pair eval_weight() {
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
 						//s.Format("I43 assume %d %d : %d %d", d, c, ret.x, ret.y);
-					//	AfxMessageBox(s);
+						//AfxMessageBox(s);
 						return{ d,c };
 					}
 					ret5 = check_open_four(my_stat, NULL, map_one, true);
@@ -1364,7 +1373,7 @@ ordered_pair eval_weight() {
 					ordered_pair ret5 = check_five(NULL, enemy_stat, map_one, false);
 					if (ret.x != ret5.x && ret.y != ret5.y)
 					{
-					//	s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
+						//s.Format("E33 assume %d %d : %d %d", d, c, ret.x, ret.y);
 						//AfxMessageBox(s);
 						return ret;
 					}
