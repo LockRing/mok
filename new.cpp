@@ -755,7 +755,7 @@ ordered_pair check_four_three(status my_stat[][MAXXY], status enemy_stat[][MAXXY
 							}
 						}
 
-						if (count4 > 0 && count11 > 0 && open1_1 > 0 && open4 > 0)
+						if (count4 > 0 && count11 > 0 && open1_1 > 1 && open4 > 0)
 						{
 							return{ j,i };
 						}
